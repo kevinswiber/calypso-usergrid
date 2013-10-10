@@ -22,5 +22,8 @@
   },
   "peerDependencies": {
     "calypso": "*"
+  },
+  "dependencies": {
+    "usergrid": ">=0.10.5"
   }
 }
