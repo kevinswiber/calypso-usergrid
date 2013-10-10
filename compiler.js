@@ -6,6 +6,7 @@ var UsergridCompiler = module.exports = function() {
   this.filter = [];
   this.query = [];
   this.params = {};
+  this.modelFieldMap = null;
 };
 
 UsergridCompiler.prototype.visit = function(node) {
@@ -13,6 +14,8 @@ UsergridCompiler.prototype.visit = function(node) {
 };
 
 UsergridCompiler.prototype.compile = function(options) {
+  this.modelFieldMap = options.query.modelConfig.fieldMap;
+  console.log(this.modelFieldMap);
   var query = options.query.build();
   
   if (query.type === 'ast') {
@@ -40,6 +43,10 @@ UsergridCompiler.prototype.compile = function(options) {
       }
     }
   });
+
+  if (fields.length === 0) {
+    fields.push('*');
+  }
 
   var statement = 'select ' + fields.join(', ');
 
@@ -133,6 +140,10 @@ UsergridCompiler.prototype.visitDisjunction = function(disjunction) {
 UsergridCompiler.prototype.visitContainsPredicate = function(contains) {
   var isParam = false;
 
+  if (this.modelFieldMap[contains.field]) {
+    contains.field = this.modelFieldMap[contains.field];
+  }
+
   if (typeof contains.value === 'string'
       && contains.value[0] === '@' && this.params) {
     contains.value = this.params[contains.value.substring(1)];
@@ -150,6 +161,10 @@ UsergridCompiler.prototype.visitContainsPredicate = function(contains) {
 
 UsergridCompiler.prototype.visitComparisonPredicate = function(comparison) {
   if (!comparison.array) comparison.array = [];
+
+  if (this.modelFieldMap[comparison.field]) {
+    comparison.field = this.modelFieldMap[comparison.field];
+  }
 
   var isParam = false;
   if (typeof comparison.value === 'string'
