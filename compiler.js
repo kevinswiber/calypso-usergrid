@@ -15,7 +15,6 @@ UsergridCompiler.prototype.visit = function(node) {
 
 UsergridCompiler.prototype.compile = function(options) {
   this.modelFieldMap = options.query.modelConfig.fieldMap;
-  console.log(this.modelFieldMap);
   var query = options.query.build();
   
   if (query.type === 'ast') {
