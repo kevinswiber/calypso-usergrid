@@ -1,0 +1,23 @@
+{
+  "name": "calypso-usergrid",
+  "version": "0.0.0",
+  "description": "A Usergrid session for Calypso.",
+  "main": "usergrid_session.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kevinswiber/calypso-usergrid.git"
+  },
+  "keywords": [
+    "calypso",
+    "usergrid",
+    "session"
+  ],
+  "author": "Kevin Swiber <kswiber@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinswiber/calypso-usergrid/issues"
+  }
+}
