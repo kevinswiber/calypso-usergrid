@@ -2,7 +2,7 @@
   "name": "calypso-usergrid",
   "version": "0.0.0",
   "description": "A Usergrid session for Calypso.",
-  "main": "usergrid_session.js",
+  "main": "driver.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
