@@ -2,9 +2,8 @@ var SessionConfig = require('calypso').SessionConfig;
 var Usergrid = require('usergrid');
 var UsergridCompiler = require('./compiler');
 
-var UsergridSession = module.exports = function(options) {
-  this.options = options;
-  this.client = new Usergrid.client(this.options); 
+var UsergridSession = module.exports = function(client) {
+  this.client = client; 
 };
 
 function convertToModel(config, entity, isBare) {
@@ -91,13 +90,8 @@ UsergridSession.prototype.get = function(query, id, cb) {
   });
 };
 
-UsergridSession.create = function(options, configFunc) {
+UsergridSession.create = function(options) {
   var session = new UsergridSession(options);
-
-  if (configFunc) {
-    var config = new SessionConfig(session);
-    configFunc(config);
-  }
 
   return session;
 };
