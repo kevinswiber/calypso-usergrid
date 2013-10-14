@@ -1,9 +1,9 @@
-var SessionConfig = require('calypso').SessionConfig;
 var Usergrid = require('usergrid');
 var UsergridCompiler = require('./compiler');
 
-var UsergridSession = module.exports = function(client) {
+var UsergridSession = module.exports = function(client, cache) {
   this.client = client; 
+  this.cache = cache || {};
 };
 
 function convertToModel(config, entity, isBare) {
@@ -28,7 +28,7 @@ UsergridSession.prototype.find = function(query, cb) {
   var fields;
   var fieldMap;
   if (query) {
-    var compiler = new UsergridCompiler();
+    var compiler = new UsergridCompiler(this.cache);
     var compiled = compiler.compile({ query: query });
 
     ql = compiled.ql;

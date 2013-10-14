@@ -3,11 +3,19 @@ var Session = require('./session');
 
 var UsergridConnection = module.exports = function(options) {
   this.client = new Usergrid.client(options);
+  this.cache = {};
 };
 
-UsergridConnection.prototype.open = function(cb) {
-  var session = Session.create(this.client);
-  cb(null, session);
+UsergridConnection.prototype.createSession = function() {
+  return Session.create(this.client, this.cache);
+};
+
+UsergridConnection.prototype.close = function(cb) {
+  if (cb) {
+    process.nextTick(function() {
+      cb();
+    });
+  }
 };
 
 UsergridConnection.create = function(options, cb) {

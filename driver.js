@@ -7,7 +7,9 @@ var UsergridDriver = module.exports = function(options) {
 UsergridDriver.prototype.init = function(cb) {
   var connection = Connection.create(this.options);
   
-  cb(null, connection);
+  process.nextTick(function() {
+    cb(null, connection);
+  });
 };
 
 UsergridDriver.create = function(options) {

@@ -1,12 +1,12 @@
 var Parser = require('calypso').Parser;
 
-var UsergridCompiler = module.exports = function() {
+var UsergridCompiler = module.exports = function(cache) {
   this.fields = [];
   this.sorts = '';
   this.filter = [];
-  this.query = [];
   this.params = {};
   this.modelFieldMap = null;
+  this.cache = cache || {};
 };
 
 UsergridCompiler.prototype.visit = function(node) {
@@ -20,7 +20,16 @@ UsergridCompiler.prototype.compile = function(options) {
   if (query.type === 'ast') {
     query.value.accept(this);
   } else if (query.type === 'ql') {
-    var ast = Parser.parse(query.value.ql);
+    var ql = query.value.ql;
+
+    var ast;
+    if (this.cache.hasOwnProperty(ql)) {
+      ast = this.cache[ql];
+    } else {
+      ast = Parser.parse(query.value.ql);
+      this.cache[ql] = ast;
+    }
+
     this.params = query.value.params;
     ast.accept(this);
   } else if (query.type === 'raw') {
