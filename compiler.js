@@ -145,6 +145,28 @@ UsergridCompiler.prototype.visitDisjunction = function(disjunction) {
   this.filter.push(')');
 };
 
+UsergridCompiler.prototype.visitLikePredicate = function(like) {
+  var isParam = false;
+
+  if (this.modelFieldMap[like.field]) {
+    like.field = this.modelFieldMap[like.field];
+  }
+
+  if (typeof like.value === 'string'
+      && like.value[0] === '@' && this.params) {
+    like.value = this.params[like.value.substring(1)];
+    isParam = true;
+  }
+
+  if (typeof like.value === 'string') {
+    like.value = normalizeString(like.value, isParam);
+  }
+
+  var expr = [like.field, 'contains', like.value];
+
+  this.filter.push(expr.join(' '));
+};
+
 UsergridCompiler.prototype.visitContainsPredicate = function(contains) {
   var isParam = false;
 
