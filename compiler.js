@@ -1,4 +1,4 @@
-var Parser = require('calypso').Parser;
+var Parser = require('caql');
 
 var UsergridCompiler = module.exports = function(cache) {
   this.fields = [];

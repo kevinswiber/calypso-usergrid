@@ -1,6 +1,6 @@
 {
   "name": "calypso-usergrid",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A Usergrid session for Calypso.",
   "main": "driver.js",
   "scripts": {
@@ -20,10 +20,8 @@
   "bugs": {
     "url": "https://github.com/kevinswiber/calypso-usergrid/issues"
   },
-  "peerDependencies": {
-    "calypso": "*"
-  },
   "dependencies": {
+    "caql": ">=0.1.0",
     "usergrid": ">=0.10.5"
   }
 }
